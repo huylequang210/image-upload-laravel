@@ -8,7 +8,7 @@ const imageContainer = document.querySelector('.imageContainer');
 Dropzone.autoDiscover = false;
 
 const dropzoneOptions = {
-  maxFilesize: 5,
+  maxFilesize: 3,
   parallelUploads: 20,    
   maxFiles: 20,
   autoProcessQueue:false,
