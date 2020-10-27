@@ -23665,7 +23665,20 @@ var dropzoneOptions = {
     fetchImage();
   },
   error: function error(file, response) {
-    console.log(response);
+    if (file.previewElement) {
+      var errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
+
+      if (response.message) {
+        errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
+        var progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
+        progressBar.style.width = "50%";
+        progressBar.style.margin = "0 auto";
+      } else {
+        errorBar.innerHTML = response;
+      }
+
+      errorBar.style.fontSize = "12px";
+    }
   },
   uploadprogress: function uploadprogress(file, progress) {
     if (file.previewElement) {

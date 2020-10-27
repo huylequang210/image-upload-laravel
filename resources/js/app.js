@@ -20,7 +20,19 @@ const dropzoneOptions = {
     fetchImage();
   },
   error: function(file, response) {
-    console.log(response);
+    if(file.previewElement) {
+      let errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
+      if(response.message) {
+        errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
+        let progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
+        progressBar.style.width = "50%";
+        progressBar.style.margin = "0 auto";
+      } else {
+        errorBar.innerHTML = response;
+      }
+      errorBar.style.fontSize = "12px";
+
+    }
   },
   uploadprogress: function(file, progress) {
     if(file.previewElement) {
