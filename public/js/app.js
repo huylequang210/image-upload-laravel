@@ -23653,7 +23653,7 @@ var submitButton = document.querySelector('#button');
 var imageContainer = document.querySelector('.imageContainer');
 dropzone__WEBPACK_IMPORTED_MODULE_1___default.a.autoDiscover = false;
 var dropzoneOptions = {
-  maxFilesize: 5,
+  maxFilesize: 3,
   parallelUploads: 20,
   maxFiles: 20,
   autoProcessQueue: false,
