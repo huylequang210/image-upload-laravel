@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 class UploadsController extends Controller
 {
     private $responseImagesName = array();
+
     public function index() {
         $images = ImageUpload::latest()->get();
         return view('welcome', compact('images'));
@@ -26,7 +27,6 @@ class UploadsController extends Controller
             $basename = Str::random();
             $original = $basename . '.' . $image->getClientOriginalExtension();
             $thumbnail = $basename . '_thumb.' . $image->getClientOriginalExtension();
-            $arrayGroupName = array();
             Image::make($image)->fit(250,250)
                 ->save(public_path('/images/' . $thumbnail));
 
@@ -39,7 +39,7 @@ class UploadsController extends Controller
         });
         return response()->json(['imagesName' => $this->responseImagesName]);
     }
-
+    
     public function destroy(ImageUpload $imageUpload) {
         // delete files
         File::delete([
