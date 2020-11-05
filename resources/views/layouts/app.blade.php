@@ -22,7 +22,7 @@
         <nav>
             <div>
                 <a href="{{url('/')}}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name') }}
                 </a>
                 <div>
                     <!-- Left Side Of Navbar -->

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'evening-shelf-61813'),
+    'name' => env('APP_NAME', 'Upload Image'),
 
     /*
     |--------------------------------------------------------------------------
