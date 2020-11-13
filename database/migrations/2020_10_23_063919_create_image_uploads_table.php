@@ -16,6 +16,7 @@ class CreateImageUploadsTable extends Migration
         Schema::create('image_uploads', function (Blueprint $table) {
             $table->id();
             $table->string('original');
+            $table->unsignedInteger('user_id')->index();
             $table->string('thumbnail');
             $table->timestamps();
         });

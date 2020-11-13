@@ -41582,6 +41582,40 @@ var form = document.querySelector('.dropzone');
 var deleteImageForms = Array.from(document.querySelectorAll('.deleleImage'));
 var submitButton = document.querySelector('#button');
 var imageContainer = document.querySelector('.imageContainer');
+var images = Array.from(document.querySelectorAll('.imageLink')); // call when user click on back button or forward button
+
+var perfEntries = performance.getEntriesByType('navigation');
+
+if (perfEntries.length && perfEntries[0].type === 'back_forward') {
+  isGridChanges();
+} // array format: [id, original url, thumbnail url]
+
+
+var imagesObjectArray;
+
+if (images) {
+  imagesObjectArray = images.map(function (el) {
+    return [el.dataset.id, el.dataset.original, el.dataset.thumbnail];
+  });
+} // re-render images to avoid cache images
+
+
+function isGridChanges() {
+  var getImagesLocalStorage = JSON.parse(localStorage.getItem("images"));
+
+  if (getImagesLocalStorage && getImagesLocalStorage.length > 0) {
+    imageContainer.innerHTML = '';
+    getImagesLocalStorage = getImagesLocalStorage.reverse(); // convert string number to number, keep non-number
+
+    getImagesLocalStorage.forEach(function (arr) {
+      addImagesToGrid(arr.map(function (el) {
+        return isNaN(Number(el)) ? el : Number(el);
+      }), 2);
+    });
+    localStorage.setItem('images', JSON.stringify(getImagesLocalStorage));
+  }
+}
+
 dropzone__WEBPACK_IMPORTED_MODULE_1___default.a.autoDiscover = false;
 var dropzoneOptions = {
   maxFilesize: 3,
@@ -41591,30 +41625,36 @@ var dropzoneOptions = {
   addRemoveLinks: true,
   dictDefaultMessage: 'Drop Here!',
   success: function success(file, response) {
-    addImagesToGrid(response); // when user click on back button
-
-    fetchImage();
+    addImagesToGrid(response, 1);
+    file.previewElement.innerHTML = "";
   },
   error: function error(file, response) {
+    console.log(response.message);
+
     if (file.previewElement) {
       var errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
 
-      if (response.message) {
-        errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
-        var progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
-        progressBar.style.width = "50%";
-        progressBar.style.margin = "0 auto";
+      if (response.message === "Unauthenticated.") {
+        console.log('Hi');
+        file.previewElement.innerHTML = "";
+        file.previewElement.innerHTML = 'Please login to upload your images';
+      } else if (response.message) {
+        errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files"; // let progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
+        // progressBar.style.width = "50%";
+        // progressBar.style.margin = "0 auto";
       } else {
         errorBar.innerHTML = response;
       }
 
       errorBar.style.fontSize = "12px";
     }
+
+    file.status = dropzone__WEBPACK_IMPORTED_MODULE_1___default.a.QUEUED;
   },
   uploadprogress: function uploadprogress(file, progress) {
     if (file.previewElement) {
       var progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
-      progressBar.style.width = progress + "%";
+      progressBar.style.width = progress + "px";
     }
   }
 };
@@ -41622,7 +41662,7 @@ var dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_1___default.a(form, dropzon
 submitButton.addEventListener('click', function (e) {
   e.preventDefault();
   dropzone.processQueue();
-});
+}); // add event for exist images
 
 if (deleteImageForms) {
   deleteImageForms.forEach(function (deleteImageForm) {
@@ -41632,45 +41672,28 @@ if (deleteImageForms) {
   });
 }
 
-function addEventToNewImage(url) {
+function addDeleteEventToNewImage(url) {
   var deleteImageForm = document.querySelector("form[action='".concat(url, "']"));
   deleteImageForm.addEventListener('submit', function (e) {
     deleteImageEvent(e, deleteImageForm);
   });
-}
+} // response: array:
+// - 0: image id
+// - 1: image url
+// - 2: image_thumbnail url
+// num:
+// - 1: add to localStoage
+// - 2: not add to localStoage
 
-function fetchImage() {
-  return _fetchImage.apply(this, arguments);
-}
 
-function _fetchImage() {
-  _fetchImage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-    var res;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return fetch(window.location.href);
-
-          case 2:
-            res = _context.sent;
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _fetchImage.apply(this, arguments);
-}
-
-function addImagesToGrid(response) {
-  var div = "\n    <div class=\"imageDiv\">\n      <a href=\"/images/".concat(response["imagesName"][0], "\">\n        <img src=\"/images/").concat(response["imagesName"][1], "\" alt=\"images\">\n      </a>\n      <form action=\"/api/images/").concat(response["imagesName"][2], "\" method=\"POST\" class=\"deleleImage\">\n        <input type=\"hidden\" name=\"_method\" value=\"DELETE\">                            \n        <input type=\"hidden\" name=\"_token\" value=").concat(document.getElementsByName('_token')[0].value, ">\n        <button class=\"deleteImageButton\">Delete</button>\n      </form>\n    </div>\n  ");
+function addImagesToGrid(response, num) {
+  var div = "\n    <div class=\"imageDiv mr-1 mb-1 w-210px h-210px flex justify-center relative\">\n      <a href=\"/images/".concat(response[1], "\" \n          class=\"block w-full h-full\"\n          data-original=\"").concat(response[1], "\n          data-thumbnail=\"").concat(response[2], "\">\n        <img src=\"/images/").concat(response[2], "\" alt=\"images\">\n      </a>\n      <form action=\"/api/images/").concat(response[0], "\" method=\"POST\" class=\"deleleImage block absolute -bottom-20px invisible\">\n        <input type=\"hidden\" name=\"_method\" value=\"DELETE\">                            \n        <input type=\"hidden\" name=\"_token\" value=").concat(document.getElementsByName('_token')[0].value, ">\n        <button class=\"deleteImageButton block text-white\">Delete</button>\n      </form>\n    </div>\n  ");
   imageContainer.insertAdjacentHTML("afterbegin", div);
-  addEventToNewImage("/api/images/".concat(response["imagesName"][2]));
-}
+  addDeleteEventToNewImage("/api/images/".concat(response[0])); // convert number in array to string
+
+  if (num === 1) saveImageToLocalStorage(1, response.map(String));
+} // url: /images/randomstring.jpg
+
 
 function removeImagesFromGrid(url) {
   var linkImage = document.querySelector("a[href='".concat(url, "']"));
@@ -41681,20 +41704,20 @@ function removeImagesFromGrid(url) {
 
 function deleteImageEvent(_x, _x2) {
   return _deleteImageEvent.apply(this, arguments);
-}
+} // 1 - add, 2 - delete
+
 
 function _deleteImageEvent() {
-  _deleteImageEvent = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e, deleteImageForm) {
+  _deleteImageEvent = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e, deleteImageForm) {
     var deleteButton, res, data;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
             deleteButton = deleteImageForm.querySelector('.deleteImageButton');
-            deleteButton.parentElement.removeChild(deleteButton);
-            deleteImageForm.insertAdjacentHTML("afterend", "<span>Deleting...</span>");
-            _context2.next = 6;
+            deleteButton.innerHTML = 'Deleting...';
+            _context.next = 5;
             return fetch("".concat(deleteImageForm.action), {
               headers: {
                 "X-CSRF-Token": document.getElementsByName('_token')[0].value,
@@ -41703,28 +41726,46 @@ function _deleteImageEvent() {
               method: "DELETE"
             });
 
-          case 6:
-            res = _context2.sent;
-            _context2.next = 9;
+          case 5:
+            res = _context.sent;
+            _context.next = 8;
             return res.json();
 
-          case 9:
-            data = _context2.sent;
+          case 8:
+            data = _context.sent;
 
-            if (data.ok) {
-              removeImagesFromGrid(data.ok);
+            if (data) {
+              saveImageToLocalStorage(2, data);
+              removeImagesFromGrid("/images/".concat(data[1]));
             } else {
               deleteButton.textContent = 'Delete';
             }
 
-          case 11:
+          case 10:
           case "end":
-            return _context2.stop();
+            return _context.stop();
         }
       }
-    }, _callee2);
+    }, _callee);
   }));
   return _deleteImageEvent.apply(this, arguments);
+}
+
+function saveImageToLocalStorage() {
+  var addOrDelete = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var arr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+  if (addOrDelete === 1 && arr.length > 0) {
+    imagesObjectArray.unshift(arr);
+  }
+
+  if (addOrDelete === 2 && arr.length > 0) {
+    imagesObjectArray = imagesObjectArray.filter(function (el, i) {
+      return parseInt(el[0], 10) !== parseInt(arr[0], 10);
+    });
+  }
+
+  localStorage.setItem('images', JSON.stringify(imagesObjectArray));
 }
 
 /***/ }),

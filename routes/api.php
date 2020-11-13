@@ -18,5 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/images', [UploadsController::class, 'store']);
-Route::delete('/images/{imageUpload}', [UploadsController::class, 'destroy']);
+Route::post('/images', [UploadsController::class, 'store'])->middleware(['auth']);
+Route::delete('/images/{imageUpload}', [UploadsController::class, 'destroy'])->middleware(['auth']);
+
+Route::get('/getImagesId', [UploadsController::class, 'imageId']);

@@ -16,20 +16,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
     <!-- Style -->
     <link rel="stylesheet" href={{asset('css/app.css')}}>
+    <!-- Style remove unuse dropzone class -->
+    <link rel="stylesheet" href="{{asset('css/dropzone.css')}}">
 </head>
 <body class="min-h-screen bg-gray-100">
-    <div id="app" class="border p-4">
-        <nav>
-            <div>
-                <a href="{{url('/')}}">
-                    {{ config('app.name') }}
-                </a>
+    <div id="app" class="pl-4 pr-4 flex flex-col h-screen">
+        <nav class="nav-bar border-b-2">
+            <div class="flex justify-between ">
+                <div class="flex items-center">
+                    <a href="{{url('/')}}">
+                        {{ config('app.name') }}
+                    </a>
+                </div>
                 <div>
                     <!-- Left Side Of Navbar -->
-                    <ul>
-
-                    </ul>
-
+                    @yield('dropzone')
+                </div>
+                <div>
                     <!-- Right Side Of Navbar -->
                     <ul>
                         <!-- Authentication Links -->
@@ -69,8 +72,8 @@
             </div>
         </nav>
 
-        <main>
-            @yield('content')
+        <main class="h-full">
+            @yield('section')
         </main>
     </div>
     @yield('jsFile')

@@ -3,10 +3,26 @@ module.exports = {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
-  purge: [],
+  purge: [
+    
+  ],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        '210px': '210px',
+      },
+      height: {
+        '210px': '210px',
+      },
+      inset: {
+        '-20px': '-20px',
+        '20px': '20px'
+      }
+    },
   },
-  variants: {},
+  variants: {
+    objectPosition: ['responsive', 'hover', 'focus', 'group-hover'],
+    textColor: ['responsive', 'hover', 'focus', 'group-hover']
+  },
   plugins: [],
 }

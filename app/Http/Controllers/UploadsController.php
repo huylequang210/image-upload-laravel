@@ -18,6 +18,11 @@ class UploadsController extends Controller
         return view('welcome', compact('images'));
     }
 
+    public function imageId() {
+        $images = ImageUpload::latest()->get('id');
+        return response()->json($images);
+    }
+
     public function store() {
         if(!is_dir(public_path('/images'))) {
             mkdir(public_path('/images'), 0777);
@@ -32,12 +37,12 @@ class UploadsController extends Controller
 
             $image->move(public_path('/images'), $original);
             $imageCreated = ImageUpload::create([
-                'original' => '/images/' . $original,
-                'thumbnail' => '/images/' . $thumbnail
+                'original' => $original,
+                'thumbnail' => $thumbnail
             ]);
-            array_push($this->responseImagesName, $original, $thumbnail, $imageCreated->id);
+            array_push($this->responseImagesName, $imageCreated->id, $original, $thumbnail);
         });
-        return response()->json(['imagesName' => $this->responseImagesName]);
+        return response()->json($this->responseImagesName);
     }
     
     public function destroy(ImageUpload $imageUpload) {
@@ -46,10 +51,11 @@ class UploadsController extends Controller
             public_path($imageUpload->original),
             public_path($imageUpload->thumbnail),
         ]);
-        $imageURL = $imageUpload->original;
+        array_push($this->responseImagesName,
+             $imageUpload->id, $imageUpload->original, $imageUpload->thumbnail);
         // delete record
         $imageUpload->delete();
 
-        return response()->json(['ok' => $imageURL]);
+        return response()->json($this->responseImagesName);
     }
 }

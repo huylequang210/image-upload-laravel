@@ -1,0 +1,61 @@
+.dz-success-mark {
+  display: none;
+}
+
+.dz-error-mark {
+  display: none;
+}
+
+.dz-filename {
+  display: none;
+}
+
+.dz-message {
+  text-align: center;
+}
+
+.dz-image-preview {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin: 0 0.5rem !important;
+}
+
+.dz-upload {
+  display: block !important;
+  background-color: crimson !important;
+  height: 5px !important;
+  width: 0px;
+}
+
+
+.imageDiv:hover .deleleImage {
+  bottom: 0px;
+  visibility: visible;
+} 
+
+.imageDiv {
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.imageDiv a {
+  background: #fff url(../images/thumb_bg.jpg) no-repeat center center;
+  background-size: 110% 110%;
+  transition: all 0.2s ease-in-out;
+}
+
+.imageDiv:hover a {
+  background-size: 100% 100%;
+}
+
+.imageDiv:hover a img {
+  opacity: 0.85;
+}
+
+.Art {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/800px-Laravel.svg.png);
+  width: 15vw;
+  background-size: cover;
+
+}
