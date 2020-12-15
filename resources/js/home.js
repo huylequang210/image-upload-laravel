@@ -214,6 +214,7 @@ async function statusImageEvent(e) {
         button.previousElementSibling.classList.remove('status');
         saveImageToLocalStorage(3, response.data, 'images.home');
     }).catch(function(error) {
+      console.log(error);
       errorDiv.innerHTML = 'Too many request, wait..';
     });
   }

@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Models\ImageUpload;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
@@ -52,8 +53,7 @@ class UploadsController extends Controller
     }
 
     public function update(ImageUpload $imageUpload) {
-        $user = auth()->user();
-        if($imageUpload->user_id !== $user->id) {
+        if($imageUpload->user_id !== (string)Auth::id()) {
             return array('error' => 'Not allow');
         }
         request()->validate([
@@ -65,8 +65,7 @@ class UploadsController extends Controller
     }
     
     public function destroy(ImageUpload $imageUpload) {
-        $user = auth()->user();
-        if($imageUpload->user_id !== $user->id) {
+        if($imageUpload->user_id !== (string)Auth::id()) {
             return array('error' => 'Not allow');
         }
         // delete files

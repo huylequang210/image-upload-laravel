@@ -29,6 +29,7 @@ function dropzoneOptionsFunction(func) {
       file.previewElement.innerHTML = "";
     },
     error: function(file, response) {
+      console.log(response);
       if(file.previewElement) {
         let errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
         if(response.message === "Unauthenticated.") {
@@ -147,21 +148,25 @@ function editAction(imagesHome, imagesWelcome, res, path) {
         // if edit status to public
         if(res.public_status !== parseInt(el.public_status) && res.public_status === 1) {
           // get nearest element
-          const output = imagesWelcome.reduce((prev, curr) => {
-            return Math.abs(parseInt(curr.id) - res.id) < Math.abs(parseInt(prev.id) - res.id) ? curr : prev;
-          });
-          // put public element to original place
-          for(let i=0; i < imagesWelcome.length; i++) {
-            if(parseInt(imagesWelcome[i].id) === parseInt(output.id)) {
-              imagesWelcome.splice(i+1, 0, res);
-              break;
+          if(imagesWelcome.length === 0) {
+            imagesWelcome.push(res);
+            
+          } else {
+            const output = imagesWelcome.reduce((prev, curr) => {
+              return Math.abs(parseInt(curr.id) - res.id) < Math.abs(parseInt(prev.id) - res.id) ? curr : prev;
+            });
+            // put public element to original place
+            for(let i=0; i < imagesWelcome.length; i++) {
+              if(parseInt(imagesWelcome[i].id) === parseInt(output.id)) {
+                imagesWelcome.splice(i+1, 0, res);
+                break;
+              }
             }
           }
         }
         // if edit status to private
         if(res.public_status !== parseInt(el.public_status) && res.public_status === 0) {
           imagesWelcome = imagesWelcome.filter(el => parseInt(el.id) !== res.id);
-          console.log(imagesWelcome);
         }
         el.title = res.title;
         el.public_status = res.public_status;

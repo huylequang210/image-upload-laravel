@@ -11,8 +11,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
     
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+    // protected $primaryKey = 'uuid';
     /**
      * The attributes that are mass assignable.
      *
@@ -43,14 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($user) {
-            $user->id = (string) Str::uuid();
-        });
-    }
+    //     static::creating(function ($user) {
+    //         $user->id = (string) Str::uuid();
+    //     });
+    // }
 
     public function imageUpload() {
         return $this->hasMany('App\Models\ImageUpload');

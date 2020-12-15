@@ -37,16 +37,18 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/upvote/{imageUpload}', [VoteController::class, 'index']);
 });
 
-Route::middleware(['throttle:image'])->group(function() {
-  Route::patch('/image/{imageUpload}', [UploadsController::class, 'update']);
-});
-
+// Route::middleware(['throttle:image'])->group(function() {
+//   Route::patch('/image/{imageUpload}', [UploadsController::class, 'update']);
+// });
+Route::patch('/image/{imageUpload}', [UploadsController::class, 'update']);
 
 Route::middleware(['checkIp:gallery', 'checkVote:gallery'])->group(function() {
   Route::get('/gallery/{imageUpload}', function(ImageUpload $imageUpload) {
     $img = $imageUpload;
     // if user access to private image
-    if($img->public_status == 0 && $img->user_id !== Auth::id()) return abort(401);
+    if($img->public_status == 0 && $img->user_id !== (string)Auth::id())  {
+      abort(401);
+    }
     $images = ImageUpload::public()->latest()->get();
     $comments = Comment::where('image_upload_id', '=', $img->id)->get();
     $vote = Vote::where([['upload_image_id', '=', $img->id],['user_id', '=', Auth::id()]])->first();
