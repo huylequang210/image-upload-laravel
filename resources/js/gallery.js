@@ -17,7 +17,6 @@ const id = pathname.slice(pathname.length - 1);
 
 function renderBackForward() {
   Axios.get(`/upvote/${id}?t=${new Date().getTime()}`).then(function(response) {
-    console.log(response);
     if(downvoteSVG.classList.contains("red") && response.data.score == "1") {
       downvoteSVG.classList.remove("red");
       upvoteSVG.classList.add("red");
@@ -89,13 +88,11 @@ addDeleteEvent();
 });
 
 function handleVote(score, voteSVG, otherSVG) {
-  console.log(voteSVG, otherSVG);
   if(voteSVG.classList.contains("red")) {
     // delete
     Axios.delete(`/upvote/${id}/${score}`).then(function(response) {
       voteSVG.classList.remove("red");
       points.innerText = parseInt(points.innerText) - score;
-      console.log(response);
     });
   } else if(otherSVG.classList.contains("red")) {
     // upvote
@@ -103,14 +100,12 @@ function handleVote(score, voteSVG, otherSVG) {
       otherSVG.classList.remove("red");
       voteSVG.classList.add("red");
       points.innerText = parseInt(points.innerText) + score*2;
-      console.log(response);
     });
   } else {
     // create
     Axios.post(`/upvote/${id}/${score}`).then(function(response) {
       voteSVG.classList.add("red");
       points.innerText = parseInt(points.innerText) + score;
-      console.log(response);
     });
   }
 }

@@ -17,7 +17,7 @@ class CreateVotesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('score');
-            $table->unsignedInteger('user_id');
+            $table->uuid('user_id');
             $table->unsignedInteger('upload_image_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('upload_image_id')

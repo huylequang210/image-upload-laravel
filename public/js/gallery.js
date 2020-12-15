@@ -41873,8 +41873,6 @@ var id = pathname.slice(pathname.length - 1);
 
 function renderBackForward() {
   axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/upvote/".concat(id, "?t=").concat(new Date().getTime())).then(function (response) {
-    console.log(response);
-
     if (downvoteSVG.classList.contains("red") && response.data.score == "1") {
       downvoteSVG.classList.remove("red");
       upvoteSVG.classList.add("red");
@@ -41976,14 +41974,11 @@ upvoteButton !== null && downvoteButton.addEventListener('click', function (e) {
 });
 
 function handleVote(score, voteSVG, otherSVG) {
-  console.log(voteSVG, otherSVG);
-
   if (voteSVG.classList.contains("red")) {
     // delete
     axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"]("/upvote/".concat(id, "/").concat(score)).then(function (response) {
       voteSVG.classList.remove("red");
       points.innerText = parseInt(points.innerText) - score;
-      console.log(response);
     });
   } else if (otherSVG.classList.contains("red")) {
     // upvote
@@ -41991,14 +41986,12 @@ function handleVote(score, voteSVG, otherSVG) {
       otherSVG.classList.remove("red");
       voteSVG.classList.add("red");
       points.innerText = parseInt(points.innerText) + score * 2;
-      console.log(response);
     });
   } else {
     // create
     axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/upvote/".concat(id, "/").concat(score)).then(function (response) {
       voteSVG.classList.add("red");
       points.innerText = parseInt(points.innerText) + score;
-      console.log(response);
     });
   }
 }
