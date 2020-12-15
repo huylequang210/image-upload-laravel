@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
+@section('section')
 <div class="container">
-  <div>
-    <div class="card-header">{{ __('Reset Password') }}</div>
+  <div class="Art h-full hidden sm:block"></div>
+  <div class="w-full md:w-1/3 h-full p-12">
+    <div class="card-header p-2 mb-4 font-bold border-b-2">{{ __('Reset Password') }}</div>
 
     <div>
       @if (session('status'))
@@ -17,7 +18,7 @@
         <div>
           <label for="email">{{ __('E-Mail Address') }}</label>
           <div>
-            <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+            <input id="email" type="email" class="@error('email') is-invalid @enderror pt-1 pb-1 pl-2 w-full bg-gray-100 bg-rgba" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
             @error('email')
               <span role="alert">
@@ -27,7 +28,7 @@
           </div>
         </div>
         <div>
-          <button>
+          <button class="mt-2">
               {{ __('Send Password Reset Link') }}
           </button>
         </div>

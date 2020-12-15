@@ -1,0 +1,175 @@
+.dz-success-mark {
+  display: none;
+}
+
+.dz-error-mark {
+  display: none;
+}
+
+.dz-filename {
+  display: none;
+}
+
+.dz-message {
+  text-align: center;
+}
+
+.dz-image-preview {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin: 0 0.5rem !important;
+}
+
+.dz-upload {
+  display: block !important;
+  background-color: crimson !important;
+  height: 5px !important;
+  width: 0px;
+}
+
+
+.imageDiv:hover .deleleImage {
+  bottom: 80px;
+  visibility: visible;
+} 
+
+.image-info {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.imageDiv:hover {
+  opacity: 0.95;
+}
+
+.imageDiv:hover .image-info {
+  visibility: visible;
+  opacity: 0.85;
+}
+
+.Art {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/800px-Laravel.svg.png);
+  width: 15vw;
+  background-size: cover;
+
+}
+
+.icon {
+  display: inline-block;
+  padding: 8px;
+}
+
+.upvote-icon {
+  background: url(../images/icons/up-arrow.svg) no-repeat center center;
+  
+}
+
+.comment-icon {
+  background: url(../images/icons/comment.svg) no-repeat center center;
+}
+
+.seen-icon {
+  background: url(../images/icons/eye.svg) no-repeat center center;
+}
+
+svg {
+  fill: #bf1f1f;
+}
+
+
+.deleteImageButton {
+  padding: 1px 0px;
+  height: 20px;
+}
+
+.deleteImageButton,
+.image-public,
+.image-private {
+  background-color: darkslategray;
+}
+
+.deleteImageButton:hover,
+.image-public:hover,
+.image-private:hover {
+  background-color: tomato;
+}
+
+.image-public:before,
+.image-private:before,
+.deleteImageButton:before {
+  content: '';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-right: 0.25rem;
+}
+
+.image-public:before {
+  background: url(../images/icons/eye.svg) no-repeat center center;
+}
+
+.image-private:before {
+  background: url(../images/icons/nosee.svg) no-repeat center center;
+}
+
+.deleteImageButton:before {
+  background-image: url(../images/icons/bin.svg);
+  background-size: 23px;
+}
+
+.post-image-container {
+  background-image: url(../images/icons/black.jpg);
+}
+
+
+
+.status {
+  background-color: firebrick;
+}
+
+.status-pending {
+  background-color: tomato;
+}
+
+.comment-area {
+  border: 4px solid rgba(0,0,0,0.3);
+}
+
+.comment:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  left: -10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid rgba(211, 210, 210, 0.5);
+  border-bottom: 5px solid rgba(211, 210, 210, 0.5);
+  border-top: 5px solid transparent;
+}
+
+
+.post-image-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 100;
+  overflow: auto;
+  background-image: url(../images/icons/black.jpg);
+}
+
+/* svg */
+.red {
+  fill: red !important;
+}

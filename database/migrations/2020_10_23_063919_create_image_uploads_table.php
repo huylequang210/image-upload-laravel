@@ -16,8 +16,12 @@ class CreateImageUploadsTable extends Migration
         Schema::create('image_uploads', function (Blueprint $table) {
             $table->id();
             $table->string('original');
-            $table->unsignedInteger('user_id')->index();
             $table->string('thumbnail');
+            $table->unsignedInteger('user_id')->index();
+            $table->string('title', '100')->default('No title');
+            $table->unsignedInteger('public_status')->default(1);
+            $table->unsignedBigInteger('view')->default(1);
+            $table->unsignedBigInteger('upvote')->default(0);
             $table->timestamps();
         });
     }

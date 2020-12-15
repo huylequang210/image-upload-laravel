@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('section')
 <div class="container">
   <div>
     <div>{{ __('Reset Password') }}</div>

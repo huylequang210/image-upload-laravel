@@ -12,6 +12,7 @@
         "ext-gd": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
+        "goldspecdigital/laravel-eloquent-uuid": "8.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5",
         "laravel/fortify": "^1.6",
