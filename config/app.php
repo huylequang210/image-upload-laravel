@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://evening-shelf-61813.herokuapp.com/'),
+    'url' => env('APP_URL', 'https://serene-sands-17588.herokuapp.com/'),
 
     'asset_url' => env('ASSET_URL', null),
 
