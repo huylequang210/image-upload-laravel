@@ -41654,14 +41654,16 @@ function dropzoneOptionsFunction(func) {
       file.previewElement.innerHTML = "";
     },
     error: function error(file, response) {
-      console.log(response);
-
       if (file.previewElement) {
         var errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
 
         if (response.message === "Unauthenticated.") {
           file.previewElement.innerHTML = "";
           file.previewElement.innerHTML = 'Please login to upload your images';
+        } else if (response.userAction) {
+          errorBar.innerHTML = response.userAction;
+        } else if (response.limitError) {
+          errorBar.innerHTML = "data storage limit exceeded";
         } else if (response.message) {
           errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
         } else {
@@ -41776,7 +41778,8 @@ function addAction(imagesHome, imagesWelcome, res, path) {
   } // automatically set to private
 
 
-  if (res && path === 'images.home') {// do nothing
+  if (res && path === 'images.home') {
+    imagesHome.push(res);
   }
 
   return [imagesHome, imagesWelcome];
@@ -41873,8 +41876,10 @@ var upvoteSVG = upvoteButton !== null && upvoteButton.querySelector('svg');
 var downvoteButton = document.querySelector('.gallery-downvote');
 var downvoteSVG = downvoteButton !== null && downvoteButton.querySelector('svg');
 var points = document.querySelector('.gallery-points');
+var voteLimit = document.querySelector('.upvote-ratelimit');
 var pathname = window.location.pathname;
-var id = pathname.slice(pathname.length - 1);
+var id = pathname.replace('/gallery/', '');
+;
 
 function renderBackForward() {
   axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/upvote/".concat(id, "?t=").concat(new Date().getTime())).then(function (response) {
@@ -41978,25 +41983,38 @@ upvoteButton !== null && downvoteButton.addEventListener('click', function (e) {
   handleVote(-1, downvoteSVG, upvoteSVG);
 });
 
+function upvoteLimit() {
+  voteLimit.innerHTML = "Too many vote request";
+}
+
 function handleVote(score, voteSVG, otherSVG) {
   if (voteSVG.classList.contains("red")) {
     // delete
-    axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"]("/upvote/".concat(id, "/").concat(score)).then(function (response) {
-      voteSVG.classList.remove("red");
-      points.innerText = parseInt(points.innerText) - score;
+    voteSVG.classList.remove("red");
+    points.innerText = parseInt(points.innerText) - score;
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a["delete"]("/upvote/".concat(id, "/").concat(score)).then(function (response) {})["catch"](function (error) {
+      voteSVG.classList.add("red");
+      points.innerText = parseInt(points.innerText) + score;
     });
   } else if (otherSVG.classList.contains("red")) {
     // upvote
-    axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch("/upvote/".concat(id, "/").concat(score)).then(function (response) {
-      otherSVG.classList.remove("red");
-      voteSVG.classList.add("red");
-      points.innerText = parseInt(points.innerText) + score * 2;
+    otherSVG.classList.remove("red");
+    voteSVG.classList.add("red");
+    points.innerText = parseInt(points.innerText) + score * 2;
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch("/upvote/".concat(id, "/").concat(score)).then(function (response) {})["catch"](function (error) {
+      voteLimit.innerHTML = "Too many vote request";
+      otherSVG.classList.add("red");
+      voteSVG.classList.remove("red");
+      points.innerText = parseInt(points.innerText) - score * 2;
     });
   } else {
     // create
-    axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/upvote/".concat(id, "/").concat(score)).then(function (response) {
-      voteSVG.classList.add("red");
-      points.innerText = parseInt(points.innerText) + score;
+    voteSVG.classList.add("red");
+    points.innerText = parseInt(points.innerText) + score;
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/upvote/".concat(id, "/").concat(score)).then(function (response) {})["catch"](function (error) {
+      voteLimit.innerHTML = error.response.data.userAction;
+      voteSVG.classList.remove("red");
+      points.innerText = parseInt(points.innerText) - score;
     });
   }
 }
@@ -42030,8 +42048,8 @@ imageHero.addEventListener('click', function (el) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\js\entry.js */"./resources/js/entry.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\js\gallery.js */"./resources/js/gallery.js");
+__webpack_require__(/*! C:\laragon\www\laravel-upload\resources\js\entry.js */"./resources/js/entry.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\laravel-upload\resources\js\gallery.js */"./resources/js/gallery.js");
 
 
 /***/ })

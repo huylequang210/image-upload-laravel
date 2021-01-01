@@ -22,6 +22,10 @@ class CreateImageUploadsTable extends Migration
             $table->unsignedInteger('public_status')->default(1);
             $table->unsignedBigInteger('view')->default(1);
             $table->unsignedBigInteger('upvote')->default(0);
+            $table->float('original_data');
+            $table->float('thumbnail_data');
+            $table->softDeletes();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }

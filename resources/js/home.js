@@ -156,6 +156,9 @@ function addImagesToGrid(response = {}, num=0) {
       </div>
     </div>
   </div>
+  <div class="deleted-placeholder justify-center items-center mr-1 mb-4 sm:mb-1 h-350px sm:h-300px sm:w-210px hide">
+    <span class="font-bold">Move image to trash</span>
+  </div>
 `;
 
   imageContainer.insertAdjacentHTML("afterbegin", div);
@@ -189,8 +192,11 @@ async function deleteImageEvent(e, deleteImageForm) {
   deleteButton.innerHTML = '...';
   const res = await Axios.delete(`${deleteImageForm.action}`);
   if(res.status === 200) {
+    // get placeholder
+    const deletedImage = deleteImageForm.offsetParent.nextElementSibling;
     saveImageToLocalStorage(2, res.data, 'images.home');
     removeImagesFromGrid(`${res.data.original}`);
+    deletedImage.style.display = "block";
   } else {
     deleteButton.innerHTML = 'Delete';
   }

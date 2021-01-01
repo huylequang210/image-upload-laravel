@@ -24,6 +24,8 @@ mix.js([
     'resources/js/entry.js',
     'resources/js/gallery.js'
   ], 'public/js/gallery.js')
+  .js('resources/js/profile.js', 'public/js/profile.js')
+  .js('resources/js/admin.js', 'public/js/admin.js')
   .sass('resources/sass/app.scss', 'public/css')
     .options({
       processCssUrls: false,

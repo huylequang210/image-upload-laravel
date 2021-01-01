@@ -8,6 +8,10 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -51,6 +55,16 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::verifyEmailView(function() {
             return view('auth.verify-email');
+        });
+
+        Fortify::authenticateUsing(function(Request $request) {
+            $user = User::where('name', $request->name)->first();
+            if(is_null($user)) 
+                throw ValidationException::withMessages([
+                    Fortify::username() => "User name is not found"
+                ]);
+            if($user && Hash::check($request->password, $user->password))
+                return $user;
         });
 
     }

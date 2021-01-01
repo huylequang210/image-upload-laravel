@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ImageUpload extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [];
 
     // set default value
@@ -14,8 +17,10 @@ class ImageUpload extends Model
         'title' => 'No title',
         'public_status' => 0,
         'view' => 1,
-        'upvote' => 0
+        'upvote' => 0,
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function scopePublic($query) {
         return $query->where('public_status', 1);

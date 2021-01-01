@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Login')
 @section('section')
 <div class="container h-full flex w-full">
   <div class="Art h-full hidden sm:block"></div>
@@ -13,7 +13,7 @@
           <div>
             <input id="name" type="text"
               class="@error('name') is-invalid @enderror pt-1 pb-1 pl-2 w-full bg-gray-100 bg-rgba" name="name"
-              value="{{ old('name') }}" required autocomplete="name" autofocus>
+              value="{{ old('name') }}" required>
             @error('name')
               <span role="alert">
                 <strong>{{ $message }}</strong>
@@ -55,11 +55,11 @@
             {{ __('Login') }}
             </button>
 
-            @if (Route::has('password.request'))
+            {{-- @if (Route::has('password.request'))
               <a href="{{ route('password.request') }}">
                 {{ __('Forgot Your Password?') }}
               </a>
-            @endif
+            @endif --}}
           </div>
         </div>
       </form>

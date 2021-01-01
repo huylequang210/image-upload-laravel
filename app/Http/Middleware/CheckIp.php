@@ -29,6 +29,7 @@ class CheckIp
             (new GalleryViewController)->store($imageId);
             $image = ImageUpload::find($imageId);
             $image->update(array('view' => $image->view+1));
+            request()->attributes->set('view', $image->view);
         }
         return $next($request);
     }

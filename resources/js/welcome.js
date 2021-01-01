@@ -17,9 +17,6 @@ if(getImagesLocalStorage && imageContainer) {
 Dropzone.autoDiscover = false;
 
 const dropzone = new Dropzone(form, dropzoneOptionsFunction(addImagesToGrid));
-dropzone.on("error", function(file) {
-  
-})
 
 submitButton.addEventListener('click', function(e) {
   e.preventDefault();

@@ -29,12 +29,15 @@ function dropzoneOptionsFunction(func) {
       file.previewElement.innerHTML = "";
     },
     error: function(file, response) {
-      console.log(response);
       if(file.previewElement) {
         let errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
         if(response.message === "Unauthenticated.") {
           file.previewElement.innerHTML = "";
           file.previewElement.innerHTML = 'Please login to upload your images';
+        } else if(response.userAction) {
+          errorBar.innerHTML = response.userAction;
+        } else if(response.limitError) {
+          errorBar.innerHTML = "data storage limit exceeded";
         } else if(response.message) {
           errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
         } else {
@@ -52,6 +55,7 @@ function dropzoneOptionsFunction(func) {
     }
   };
 }
+
 
 let imagesObjectArray = images.map(el => {
   return {
@@ -123,7 +127,7 @@ function addAction(imagesHome, imagesWelcome, res, path) {
   }
   // automatically set to private
   if(res && path === 'images.home') {
-    // do nothing
+    imagesHome.push(res);
   }
   return [imagesHome, imagesWelcome];
 }

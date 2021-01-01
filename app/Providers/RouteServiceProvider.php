@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -47,6 +48,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
             
         });
+
+        Route::bind('user', function ($value) {
+            return User::where('name', $value)->orWhere('id', $value)->firstOrFail();
+        });
     }
 
     /**
@@ -61,7 +66,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('image', function(Request $request) {
-            return Limit::perMinute(20);
+            return Limit::perMinute(5);
+        });
+
+        RateLimiter::for('upvote', function(Request $request) {
+            return Limit::perMinute(10);
         });
     }
 }

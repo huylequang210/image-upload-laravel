@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    
     // public $incrementing = false;
     // protected $keyType = 'string';
     // protected $primaryKey = 'uuid';
@@ -23,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -53,12 +53,21 @@ class User extends Authenticatable
     //     });
     // }
 
+    // public function getRouteKeyName()
+    // {
+    //     return 'name';
+    // }
+    
     public function imageUpload() {
         return $this->hasMany('App\Models\ImageUpload');
     }
 
     public function imageUploadPublic() {
         return $this->hasMany('App\Models\ImageUpload')->public();
+    }
+
+    public function imageUploadWithTrash() {
+        return $this->hasMany('App\Models\ImageUpload')->withTrashed();
     }
 
     public function comments() {
@@ -68,4 +77,14 @@ class User extends Authenticatable
     public function vote() {
         return $this->hasMany('App\Models\Vote');
     }
+
+    public function storage() {
+        return $this->hasOne('App\Models\Storage');
+    }
+
+    public function userAction() {
+        return $this->hasOne('App\Models\UserAction');
+    }
+
+
 }

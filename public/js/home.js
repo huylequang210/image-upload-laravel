@@ -41654,14 +41654,16 @@ function dropzoneOptionsFunction(func) {
       file.previewElement.innerHTML = "";
     },
     error: function error(file, response) {
-      console.log(response);
-
       if (file.previewElement) {
         var errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
 
         if (response.message === "Unauthenticated.") {
           file.previewElement.innerHTML = "";
           file.previewElement.innerHTML = 'Please login to upload your images';
+        } else if (response.userAction) {
+          errorBar.innerHTML = response.userAction;
+        } else if (response.limitError) {
+          errorBar.innerHTML = "data storage limit exceeded";
         } else if (response.message) {
           errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
         } else {
@@ -41776,7 +41778,8 @@ function addAction(imagesHome, imagesWelcome, res, path) {
   } // automatically set to private
 
 
-  if (res && path === 'images.home') {// do nothing
+  if (res && path === 'images.home') {
+    imagesHome.push(res);
   }
 
   return [imagesHome, imagesWelcome];
@@ -41969,7 +41972,7 @@ function addTitleChangeEventToNewImage(url) {
 function addImagesToGrid() {
   var response = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var div = "\n  <div class=\"imageDiv mr-1 mb-4 sm:mb-1 h-350px sm:h-300px sm:w-210px flex flex-col items-center relative\">\n    <a href=\"/gallery/".concat(response.id, "\" class=\"imageLink block w-full h-210\" \n      data-id=").concat(response.id, "\n      data-original=").concat(response.original, "\n      data-thumbnail=").concat(response.thumbnail, "\n      data-title=\"").concat(response.title, "\"\n      data-publicStatus=").concat(response.public_status, "\n      data-view=").concat(response.view, "\n      data-comments=").concat(response.comments || "0", "\n      data-upvote=").concat(response.upvote, "\n      data-user_id=\"").concat(response.user_id, "\">\n      <img class=\"girdImage\" src=\"/images/").concat(response.thumbnail, "\" alt=\"images\">\n    </a>\n    <div class=\"image-info w-full h-65px bg-gray-900 text-white text-sm p-1 flex flex-col absolute bottom-100px sm:bottom-90px\">\n      <div class=\"title flex-2\"><p>").concat(response.title, "</p></div>\n      <div class=\"image-item text-white flex-1 flex justify-around\">\n        <div class=\"image-item-upvote flex items-center\">\n          <span class=\"icon upvote-icon mr-0.1\"></span>\n          <span class=\"upvote-count text-sm\">").concat(response.upvote, "</span>\n        </div>\n        <div class=\"image-item-comment flex items-center\">\n          <span class=\"icon comment-icon mr-0.1\"></span>\n          <span class=\"comment-count text-sm\">").concat(response.comments || "0", "</span>\n        </div>\n        <div class=\"image-item-seen flex items-center\">\n          <span class=\"icon seen-icon mr-0.1\"></span>\n          <span class=\"seen-count text-sm\">").concat(response.view, "</span>\n        </div>\n      </div>\n    </div>\n    <div class=\"image-edit h-full w-full bg-gray-900 text-white p-1 text-sm flex flex-col justify-around\">\n      <div class=\"image-status flex\">\n        <form action=\"/image/").concat(response.id, "\"  method=\"POST\" class=\"deleleImage block\">\n          <input type=\"hidden\" name=\"_method\" value=\"DELETE\">                            \n          <input type=\"hidden\" name=\"_token\" value=").concat(document.getElementsByName('_token')[0].value, ">\n          <button class=\"deleteImageButton flex\">Delete</button>\n        </form>\n        <div class=\"image-visibility flex\">\n          <button class=\"image-public flex ml-1 ").concat(response.public_status == '1' ? 'status' : '', "\">Public</button>\n          <button class=\"image-private flex ml-1 ").concat(response.public_status == 0 ? 'status' : '', "\">Private</button>\n        </div>\n      </div>\n      <div class=\"edit-title-name\">\n        <form action=\"/image/").concat(response.id, "\" method=\"POST\" class=\"editImage block\">\n          <input type=\"hidden\" name=\"_method\" value=\"PATCH\">                            \n          <input type=\"hidden\" name=\"_token\" value=").concat(document.getElementsByName('_token')[0].value, ">\n          <input class=\"bg-gray-900 block w-full\"\n            type=\"tile\" name=\"title\" id=\"title\" placeholder=\"Click here to edit title (50 max)\" maxlength=\"50\">\n          <button type=\"submit\" class=\"editImageButton block\">Edit</button>\n        </form>\n      </div>\n    </div>\n  </div>\n");
+  var div = "\n  <div class=\"imageDiv mr-1 mb-4 sm:mb-1 h-350px sm:h-300px sm:w-210px flex flex-col items-center relative\">\n    <a href=\"/gallery/".concat(response.id, "\" class=\"imageLink block w-full h-210\" \n      data-id=").concat(response.id, "\n      data-original=").concat(response.original, "\n      data-thumbnail=").concat(response.thumbnail, "\n      data-title=\"").concat(response.title, "\"\n      data-publicStatus=").concat(response.public_status, "\n      data-view=").concat(response.view, "\n      data-comments=").concat(response.comments || "0", "\n      data-upvote=").concat(response.upvote, "\n      data-user_id=\"").concat(response.user_id, "\">\n      <img class=\"girdImage\" src=\"/images/").concat(response.thumbnail, "\" alt=\"images\">\n    </a>\n    <div class=\"image-info w-full h-65px bg-gray-900 text-white text-sm p-1 flex flex-col absolute bottom-100px sm:bottom-90px\">\n      <div class=\"title flex-2\"><p>").concat(response.title, "</p></div>\n      <div class=\"image-item text-white flex-1 flex justify-around\">\n        <div class=\"image-item-upvote flex items-center\">\n          <span class=\"icon upvote-icon mr-0.1\"></span>\n          <span class=\"upvote-count text-sm\">").concat(response.upvote, "</span>\n        </div>\n        <div class=\"image-item-comment flex items-center\">\n          <span class=\"icon comment-icon mr-0.1\"></span>\n          <span class=\"comment-count text-sm\">").concat(response.comments || "0", "</span>\n        </div>\n        <div class=\"image-item-seen flex items-center\">\n          <span class=\"icon seen-icon mr-0.1\"></span>\n          <span class=\"seen-count text-sm\">").concat(response.view, "</span>\n        </div>\n      </div>\n    </div>\n    <div class=\"image-edit h-full w-full bg-gray-900 text-white p-1 text-sm flex flex-col justify-around\">\n      <div class=\"image-status flex\">\n        <form action=\"/image/").concat(response.id, "\"  method=\"POST\" class=\"deleleImage block\">\n          <input type=\"hidden\" name=\"_method\" value=\"DELETE\">                            \n          <input type=\"hidden\" name=\"_token\" value=").concat(document.getElementsByName('_token')[0].value, ">\n          <button class=\"deleteImageButton flex\">Delete</button>\n        </form>\n        <div class=\"image-visibility flex\">\n          <button class=\"image-public flex ml-1 ").concat(response.public_status == '1' ? 'status' : '', "\">Public</button>\n          <button class=\"image-private flex ml-1 ").concat(response.public_status == 0 ? 'status' : '', "\">Private</button>\n        </div>\n      </div>\n      <div class=\"edit-title-name\">\n        <form action=\"/image/").concat(response.id, "\" method=\"POST\" class=\"editImage block\">\n          <input type=\"hidden\" name=\"_method\" value=\"PATCH\">                            \n          <input type=\"hidden\" name=\"_token\" value=").concat(document.getElementsByName('_token')[0].value, ">\n          <input class=\"bg-gray-900 block w-full\"\n            type=\"tile\" name=\"title\" id=\"title\" placeholder=\"Click here to edit title (50 max)\" maxlength=\"50\">\n          <button type=\"submit\" class=\"editImageButton block\">Edit</button>\n        </form>\n      </div>\n    </div>\n  </div>\n  <div class=\"deleted-placeholder justify-center items-center mr-1 mb-4 sm:mb-1 h-350px sm:h-300px sm:w-210px hide\">\n    <span class=\"font-bold\">Move image to trash</span>\n  </div>\n");
   _entry__WEBPACK_IMPORTED_MODULE_1__["imageContainer"].insertAdjacentHTML("afterbegin", div);
 
   if (num === 1) {
@@ -41998,7 +42001,7 @@ function deleteImageEvent(_x, _x2) {
 
 function _deleteImageEvent() {
   _deleteImageEvent = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e, deleteImageForm) {
-    var deleteButton, res;
+    var deleteButton, res, deletedImage;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -42022,8 +42025,11 @@ function _deleteImageEvent() {
             res = _context.sent;
 
             if (res.status === 200) {
+              // get placeholder
+              deletedImage = deleteImageForm.offsetParent.nextElementSibling;
               Object(_entry__WEBPACK_IMPORTED_MODULE_1__["saveImageToLocalStorage"])(2, res.data, 'images.home');
               removeImagesFromGrid("".concat(res.data.original));
+              deletedImage.style.display = "block";
             } else {
               deleteButton.innerHTML = 'Delete';
             }
@@ -42135,9 +42141,9 @@ function _titleChangeEvent() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\js\entry.js */"./resources/js/entry.js");
-__webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\js\home.js */"./resources/js/home.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\laravel-upload\resources\js\entry.js */"./resources/js/entry.js");
+__webpack_require__(/*! C:\laragon\www\laravel-upload\resources\js\home.js */"./resources/js/home.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\laravel-upload\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

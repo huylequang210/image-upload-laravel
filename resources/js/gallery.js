@@ -12,8 +12,9 @@ const upvoteSVG = (upvoteButton !== null) && upvoteButton.querySelector('svg');
 const downvoteButton = document.querySelector('.gallery-downvote');
 const downvoteSVG = (downvoteButton !== null) && downvoteButton.querySelector('svg');
 const points = document.querySelector('.gallery-points');
+const voteLimit = document.querySelector('.upvote-ratelimit');
 const pathname = window.location.pathname;
-const id = pathname.slice(pathname.length - 1);
+const id = pathname.replace('/gallery/','');;
 
 function renderBackForward() {
   Axios.get(`/upvote/${id}?t=${new Date().getTime()}`).then(function(response) {
@@ -87,25 +88,41 @@ addDeleteEvent();
   handleVote(-1, downvoteSVG, upvoteSVG);
 });
 
+function upvoteLimit() {
+  voteLimit.innerHTML = "Too many vote request";
+}
+
 function handleVote(score, voteSVG, otherSVG) {
   if(voteSVG.classList.contains("red")) {
     // delete
+    voteSVG.classList.remove("red");
+    points.innerText = parseInt(points.innerText) - score;
     Axios.delete(`/upvote/${id}/${score}`).then(function(response) {
-      voteSVG.classList.remove("red");
-      points.innerText = parseInt(points.innerText) - score;
+    }).catch(function(error) {
+      voteSVG.classList.add("red");
+      points.innerText = parseInt(points.innerText) + score;
     });
   } else if(otherSVG.classList.contains("red")) {
     // upvote
+    otherSVG.classList.remove("red");
+    voteSVG.classList.add("red");
+    points.innerText = parseInt(points.innerText) + score*2;
     Axios.patch(`/upvote/${id}/${score}`).then(function(response) {
-      otherSVG.classList.remove("red");
-      voteSVG.classList.add("red");
-      points.innerText = parseInt(points.innerText) + score*2;
+    }).catch(function(error) {
+      voteLimit.innerHTML = "Too many vote request";
+      otherSVG.classList.add("red");
+      voteSVG.classList.remove("red");
+      points.innerText = parseInt(points.innerText) - score*2;
     });
   } else {
     // create
+    voteSVG.classList.add("red");
+    points.innerText = parseInt(points.innerText) + score;
     Axios.post(`/upvote/${id}/${score}`).then(function(response) {
-      voteSVG.classList.add("red");
-      points.innerText = parseInt(points.innerText) + score;
+    }).catch(function(error) {
+      voteLimit.innerHTML = error.response.data.userAction;
+      voteSVG.classList.remove("red");
+      points.innerText = parseInt(points.innerText) - score;
     });
   }
 }

@@ -73,6 +73,11 @@
   background: url(../images/icons/eye.svg) no-repeat center center;
 }
 
+.restore-icon {
+  background: url(../images/icons/restore.svg) no-repeat center center;
+}
+
+
 svg {
   fill: #bf1f1f;
 }
@@ -85,18 +90,23 @@ svg {
 
 .deleteImageButton,
 .image-public,
-.image-private {
+.image-private,
+.image-restore,
+.image-days {
   background-color: darkslategray;
 }
 
 .deleteImageButton:hover,
 .image-public:hover,
-.image-private:hover {
+.image-private:hover,
+.image-restore:hover,
+.image-days:hover {
   background-color: tomato;
 }
 
 .image-public:before,
 .image-private:before,
+.image-restore:before,
 .deleteImageButton:before {
   content: '';
   display: flex;
@@ -113,6 +123,11 @@ svg {
 .image-private:before {
   background: url(../images/icons/nosee.svg) no-repeat center center;
 }
+
+.image-restore:before {
+  background: url(../images/icons/restore.svg) no-repeat center center;
+}
+
 
 .deleteImageButton:before {
   background-image: url(../images/icons/bin.svg);
@@ -172,4 +187,20 @@ svg {
 /* svg */
 .red {
   fill: red !important;
+}
+
+.hide {
+  display: none;
+}
+
+.deleted-placeholder {
+  background: url(../images/icons/deleted.png) no-repeat center center;
+}
+
+.userActionNotAllow {
+  background-color: rgba(239, 68, 68, 0.9) !important;
+}
+
+.userActionNotAllow:hover {
+  background-color: rgba(220, 38, 38, 0.9) !important;
 }

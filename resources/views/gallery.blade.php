@@ -1,11 +1,11 @@
 @extends('layouts.app')
-
+@section('title', 'Gallery')
 @section('section')
   <input type="hidden" class="user-id" value={{Auth::id()}}>
   <div class="gallery flex flex-col w-11/12 mx-auto justify-between">
     <div class="gallery-container flex flex-col w-full sm:w-2/3">
       <div class="gallery-image cursor-zoom-in relative">
-        <div class="post-image-container flex justify-center items-center h-210px sm:h-auto">
+        <div class="post-image-container flex justify-center items-center">
           <img class="" src="/images/{{$img->original}}" alt="{{$img->title}}">
         </div>
         <div class="post-image-hero">
@@ -17,15 +17,15 @@
           <div class="post-title mb-1 text-lg">{{$img->title}}</div>
           <div class="post-info flex flex-row">
             <span class="text-xs">by &nbsp;</span>
-            <span class="author text-xs font-bold mr-2">{{$img->user->name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="author text-xs font-bold mr-2 hover:text-pink-600"><a href="/user/{{$img->user->name}}">{{$img->user->name}}</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span class="post-date text-xs font-bold">
               {{(new Carbon\Carbon($img->created_at))->shortRelativeDiffForHumans()}}
             </span>
           </div>
         </div>
-        <div class="next-img flex-1 flex justify-end">
+        {{-- <div class="next-img flex-1 flex justify-end">
           <button class="bg-red-600 p-2 text-sm">Next image &rarr;</button>
-        </div>
+        </div> --}}
       </div>
       <div class="text-white bg-gray-800 py-2 px-4">
         @auth
@@ -37,6 +37,9 @@
           </div>
         @endauth
       </div>
+      <div class="upvote-ratelimit text-white bg-gray-800 py-2 px-4">
+
+      </div>
       <div class="gallery-numbers text-white bg-gray-800 py-2 px-4">
         <span class="gallery-points text-sm">{{$img->upvote}}</span>
         <span class="text-sm mr-4"> Points</span>
@@ -47,7 +50,7 @@
       <div class="comment-field">
         @if($errors->any())
           @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+            <span>{{ $error }}</span>
           @endforeach
         @endif
         <form action="/comments" method="POST" class="flex flex-col border-b-30 border-gray-300 relative items-end">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Register')
 @section('section')
 <div class="container h-full flex w-full">
   <div class="Art h-full hidden sm:block"></div>

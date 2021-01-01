@@ -40883,14 +40883,16 @@ function dropzoneOptionsFunction(func) {
       file.previewElement.innerHTML = "";
     },
     error: function error(file, response) {
-      console.log(response);
-
       if (file.previewElement) {
         var errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
 
         if (response.message === "Unauthenticated.") {
           file.previewElement.innerHTML = "";
           file.previewElement.innerHTML = 'Please login to upload your images';
+        } else if (response.userAction) {
+          errorBar.innerHTML = response.userAction;
+        } else if (response.limitError) {
+          errorBar.innerHTML = "data storage limit exceeded";
         } else if (response.message) {
           errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
         } else {
@@ -41005,7 +41007,8 @@ function addAction(imagesHome, imagesWelcome, res, path) {
   } // automatically set to private
 
 
-  if (res && path === 'images.home') {// do nothing
+  if (res && path === 'images.home') {
+    imagesHome.push(res);
   }
 
   return [imagesHome, imagesWelcome];
@@ -41100,7 +41103,6 @@ if (_entry__WEBPACK_IMPORTED_MODULE_0__["getImagesLocalStorage"] && _entry__WEBP
 
 _entry__WEBPACK_IMPORTED_MODULE_0__["default"].autoDiscover = false;
 var dropzone = new _entry__WEBPACK_IMPORTED_MODULE_0__["default"](_entry__WEBPACK_IMPORTED_MODULE_0__["form"], Object(_entry__WEBPACK_IMPORTED_MODULE_0__["dropzoneOptionsFunction"])(addImagesToGrid));
-dropzone.on("error", function (file) {});
 _entry__WEBPACK_IMPORTED_MODULE_0__["submitButton"].addEventListener('click', function (e) {
   e.preventDefault();
   dropzone.processQueue();
@@ -41135,8 +41137,8 @@ function addImagesToGrid() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\js\entry.js */"./resources/js/entry.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\laravel-upload\resources\js\welcome.js */"./resources/js/welcome.js");
+__webpack_require__(/*! C:\laragon\www\laravel-upload\resources\js\entry.js */"./resources/js/entry.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\laravel-upload\resources\js\welcome.js */"./resources/js/welcome.js");
 
 
 /***/ })

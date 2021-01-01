@@ -18,13 +18,15 @@ class VoteController extends Controller
     }
 
     public function index(ImageUpload $imageUpload) {
-        $vote = $this->getVote($imageUpload->id);
+        $vote = Vote::myVote($imageUpload->id, Auth::id())->first();
         return $vote;
     }
 
     public function store(ImageUpload $imageUpload, $score) {
-        $getVote = $this->getVote($imageUpload->id);
-        if($getVote) return ['error' => 'Vote already exists'];
+        $getVote = Vote::myVote($imageUpload->id, Auth::id())->first();
+        if($getVote) {
+            return response()->json(['error' => 'Not allow'], 403);
+        }
         $vote =  Vote::create([
             'user_id' => Auth::id(),
             'upload_image_id' => $imageUpload->id,
@@ -36,7 +38,10 @@ class VoteController extends Controller
     }
 
     public function update(ImageUpload $imageUpload, $score) {
-        $vote = $this->getVote($imageUpload->id);
+        $vote = Vote::myVote($imageUpload->id, Auth::id())->first();
+        if($vote->score == $score) {
+            return response()->json(['error' => 'Not allow'], 403);
+        }
         if($vote) {
             $vote->update([
                 'score' => $score
@@ -47,10 +52,9 @@ class VoteController extends Controller
     }
 
     public function destroy(ImageUpload $imageUpload, $score) {
-        $vote = $this->getVote($imageUpload->id);
+        $vote = Vote::myVote($imageUpload->id, Auth::id())->first();
         $vote->delete();
         $imageUpload->decrement('upvote', $score);
-        request()->session()->put('vote', $vote);
         return $imageUpload;
     }
 
