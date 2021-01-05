@@ -32,7 +32,7 @@ mix.js([
       postCss: [ tailwindcss('./tailwind.config.js') ],
     })
     .purgeCss({
-      enabled: mix.inProduction(),
-      folders: ['src', 'templates'],
-      extensions: ['html', 'js', 'php', 'vue'],
+      //enabled: mix.inProduction(),
+      //folders: ['src', 'templates'],
+      //extensions: ['html', 'js', 'php', 'vue'],
     })
