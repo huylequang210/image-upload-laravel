@@ -6,10 +6,10 @@
     <div class="gallery-container flex flex-col w-full sm:w-2/3">
       <div class="gallery-image cursor-zoom-in relative">
         <div class="post-image-container flex justify-center items-center">
-          <img class="" src="/images/{{$img->original}}" alt="{{$img->title}}">
+          <img class="" src="{{$b2_url . $img->original}}" alt="{{$img->title}}">
         </div>
         <div class="post-image-hero">
-          <img class="w-auto" src="/images/{{$img->original}}" alt="{{$img->title}}">
+          <img class="w-auto" src="{{$b2_url . $img->original}}" alt="{{$img->title}}">
         </div>
       </div>
       <div class="gallery-info text-white  bg-gray-800 py-2 px-4 flex">

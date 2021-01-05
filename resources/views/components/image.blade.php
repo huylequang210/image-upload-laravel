@@ -9,7 +9,7 @@
     data-comments={{$image->comments->count()}}
     data-upvote={{$image->upvote}}
     data-user_id="{{$image->user_id}}"> 
-    <img class="girdImage" src="/images/{{$image->thumbnail}}" alt="images">
+    <img class="girdImage" src="{{$b2_url . $image->thumbnail}}" alt="images">
     <div class="image-info w-full h-65px bg-gray-900 text-white text-sm p-1 flex flex-col absolute bottom-0">
         <div class="title flex-2"><p>{{$image->title}}</p></div>
         <div class="image-item text-white flex-1 flex justify-around">

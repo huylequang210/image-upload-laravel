@@ -7,9 +7,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use App\Models\ImageUpload;
 use App\Models\User;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
-use App\Models\Storage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class UploadsController extends Controller
 {
@@ -32,9 +34,12 @@ class UploadsController extends Controller
         // get status where user upload image from public or home
         $status = $this->state();
         // make thumbnail and save in public
-        $thumbnail_image = Image::make($image)->fit(250,250)->save(public_path('/images/' . $thumbnail));
-        // save image to public
-        $image->move(public_path('/images'), $original);
+        $thumbnail_image = Image::make($image)->fit(250,250);
+        $thumbnail_image_toStorage = $thumbnail_image->stream();
+        //->save(public_path('/images/' . $thumbnail));
+        //$image->move(public_path('/images'), $original);
+        Storage::disk('b2')->put('/images/' . $original, File::get($image)); // unencode the file
+        Storage::disk('b2')->put('/images/' . $thumbnail, $thumbnail_image_toStorage);
         // make record for database
         $imageCreated = ImageUpload::create([
             'original' => $original,

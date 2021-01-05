@@ -12,6 +12,7 @@ export const submitButton = document.querySelector('#button');
 export const imageContainer = document.querySelector('.imageContainer');
 export let getImagesLocalStorage;
 export const errorDiv = document.querySelector('.error');
+export const b2_url = 'https://f000.backblazeb2.com/file/image-upload-laravel/images/';
 let user_id = document.querySelector('.user-id').value;
 
 let images = Array.from(document.querySelectorAll('.imageLink')).reverse();
@@ -23,6 +24,7 @@ function dropzoneOptionsFunction(func) {
     maxFiles: 20,
     autoProcessQueue:false,
     addRemoveLinks: true,
+    timeout: 180000,
     dictDefaultMessage: 'Drop Here!',
     success: function(file, response) {
       func(response, 1);
@@ -40,8 +42,6 @@ function dropzoneOptionsFunction(func) {
           errorBar.innerHTML = "data storage limit exceeded";
         } else if(response.message) {
           errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
-        } else {
-          errorBar.innerHTML = response;
         }
         errorBar.style.fontSize = "12px";
       }
@@ -52,7 +52,13 @@ function dropzoneOptionsFunction(func) {
         let progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
         progressBar.style.width = progress + "px";
       }
-    }
+    },
+    sending: function(file, xhr, formData) {
+      console.log(file);
+      xhr.ontimeout = function(e) {
+        errorBar.innerHTML = "server timeout";
+      };
+    },
   };
 }
 

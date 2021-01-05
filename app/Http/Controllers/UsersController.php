@@ -7,6 +7,7 @@ use App\Models\ImageUpload;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 class UsersController extends Controller
 {
 
@@ -15,9 +16,9 @@ class UsersController extends Controller
         if($image == null && $image->user_id !== (string)Auth::id()) {
             return array('error' => 'Not allow');
         }
-        File::delete([
-            public_path() . '/images/' . $image->original,
-            public_path() . '/images/' . $image->thumbnail,
+        Storage::disk('b2')->delete([
+            'images/' . $image->original,
+            'images/' . $image->thumbnail,
         ]);
         $image->forceDelete();
         return back()->with('open', 'showPanel');

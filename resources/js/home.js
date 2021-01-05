@@ -1,5 +1,5 @@
 require('./bootstrap');
-import {form, submitButton, saveImageToLocalStorage, imageContainer, getImagesLocalStorage, errorDiv} from './entry';
+import {form, submitButton, saveImageToLocalStorage, imageContainer, getImagesLocalStorage, errorDiv, b2_url} from './entry';
 import Dropzone from './entry';
 import {dropzoneOptionsFunction} from './entry';
 import Axios from 'axios';
@@ -114,7 +114,7 @@ function addImagesToGrid(response = {}, num=0) {
       data-comments=${response.comments || "0"}
       data-upvote=${response.upvote}
       data-user_id="${response.user_id}">
-      <img class="girdImage" src="/images/${response.thumbnail}" alt="images">
+      <img class="girdImage" src="${b2_url + response.thumbnail}" alt="images">
     </a>
     <div class="image-info w-full h-65px bg-gray-900 text-white text-sm p-1 flex flex-col absolute bottom-100px sm:bottom-90px">
       <div class="title flex-2"><p>${response.title}</p></div>

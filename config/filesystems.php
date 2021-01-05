@@ -64,6 +64,14 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+        'b2' => [
+            'driver'         => 'b2',
+            'accountId'      => env('B2_ACCOUNT_ID'),
+            'applicationKey' => env('B2_APP_KEY'),
+            'bucketName'     => env('B2_BUCKET'),
+            'applicationKeyId' => env('B2_APP_KEY_ID')
+            //'c' => 's3.us-west-000.backblazeb2.com'
+        ],
 
     ],
 

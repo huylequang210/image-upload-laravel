@@ -176,7 +176,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
-
+        App\Providers\CloudViewProvider::class,
+        \Gliterd\BackblazeB2\BackblazeB2ServiceProvider::class,
     ],
 
     /*

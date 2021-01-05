@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ImageUpload;
 use App\Models\User;
-use App\Models\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UsersViewController extends Controller
 {
@@ -24,7 +24,7 @@ class UsersViewController extends Controller
 
     public function profileView() {
         $images = ImageUpload::onlyTrashed()->where('user_id', '=', Auth::id())->get();
-        $storage = Storage::find(Auth::id());
+        $storage = \App\Models\Storage::find(Auth::id());
         $totalImages = Auth::user()->imageUpload->count();
         return view('user.index', compact(['images', 'storage', 'totalImages']));
     }

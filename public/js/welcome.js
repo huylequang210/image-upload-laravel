@@ -40828,7 +40828,7 @@ try {
 /*!*******************************!*\
   !*** ./resources/js/entry.js ***!
   \*******************************/
-/*! exports provided: default, dropzoneOptionsFunction, form, submitButton, imageContainer, getImagesLocalStorage, errorDiv, saveImageToLocalStorage */
+/*! exports provided: default, dropzoneOptionsFunction, form, submitButton, imageContainer, getImagesLocalStorage, errorDiv, b2_url, saveImageToLocalStorage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40839,6 +40839,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "imageContainer", function() { return imageContainer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getImagesLocalStorage", function() { return getImagesLocalStorage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "errorDiv", function() { return errorDiv; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b2_url", function() { return b2_url; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveImageToLocalStorage", function() { return saveImageToLocalStorage; });
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js");
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_0__);
@@ -40867,6 +40868,7 @@ var submitButton = document.querySelector('#button');
 var imageContainer = document.querySelector('.imageContainer');
 var getImagesLocalStorage;
 var errorDiv = document.querySelector('.error');
+var b2_url = 'https://f000.backblazeb2.com/file/image-upload-laravel/images/';
 var user_id = document.querySelector('.user-id').value;
 var images = Array.from(document.querySelectorAll('.imageLink')).reverse();
 
@@ -40877,6 +40879,7 @@ function dropzoneOptionsFunction(func) {
     maxFiles: 20,
     autoProcessQueue: false,
     addRemoveLinks: true,
+    timeout: 180000,
     dictDefaultMessage: 'Drop Here!',
     success: function success(file, response) {
       func(response, 1);
@@ -40884,22 +40887,20 @@ function dropzoneOptionsFunction(func) {
     },
     error: function error(file, response) {
       if (file.previewElement) {
-        var errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
+        var _errorBar = file.previewElement.querySelector("[data-dz-errormessage]");
 
         if (response.message === "Unauthenticated.") {
           file.previewElement.innerHTML = "";
           file.previewElement.innerHTML = 'Please login to upload your images';
         } else if (response.userAction) {
-          errorBar.innerHTML = response.userAction;
+          _errorBar.innerHTML = response.userAction;
         } else if (response.limitError) {
-          errorBar.innerHTML = "data storage limit exceeded";
+          _errorBar.innerHTML = "data storage limit exceeded";
         } else if (response.message) {
-          errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
-        } else {
-          errorBar.innerHTML = response;
+          _errorBar.innerHTML = "Unsupported image type<br>Only JPG, PNG, GIF or WebP files";
         }
 
-        errorBar.style.fontSize = "12px";
+        _errorBar.style.fontSize = "12px";
       }
 
       file.status = dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.QUEUED;
@@ -40909,6 +40910,13 @@ function dropzoneOptionsFunction(func) {
         var progressBar = file.previewElement.querySelector("[data-dz-uploadprogress]");
         progressBar.style.width = progress + "px";
       }
+    },
+    sending: function sending(file, xhr, formData) {
+      console.log(file);
+
+      xhr.ontimeout = function (e) {
+        errorBar.innerHTML = "server timeout";
+      };
     }
   };
 }
@@ -41115,7 +41123,7 @@ function addImagesToGrid() {
   var response = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var num = arguments.length > 1 ? arguments[1] : undefined;
   if (!response.public_status) return;
-  var div = "\n    <div class=\"imageDiv mr-1 mb-1 sm:w-210px sm:h-210px flex flex-col items-center relative\">\n      <a href=\"/gallery/".concat(response.id, "\" class=\"imageLink block w-full h-210\" \n        data-id=").concat(response.id, "\n        data-original=").concat(response.original, "\n        data-thumbnail=").concat(response.thumbnail, "\n        data-title=\"").concat(response.title, "\"\n        data-publicStatus=").concat(response.public_status, "\n        data-view=").concat(response.view, "\n        data-comments=").concat(response.comments || "0", "\n        data-upvote=").concat(response.upvote, "\n        data-user_id=\"").concat(response.user_id, "\">\n        <img class=\"girdImage\" src=\"/images/").concat(response.thumbnail, "\" alt=\"images\">\n      </a>\n      <div class=\"image-info w-full h-65px bg-gray-900 text-white text-sm p-1 flex flex-col absolute bottom-0\">\n        <div class=\"title flex-2\"><p>").concat(response.title, "</p></div>\n          <div class=\"image-item text-white flex-1 flex justify-around\">\n          <div class=\"image-item-upvote flex items-center\">\n          <span class=\"icon upvote-icon mr-0.1\"></span>\n          <span class=\"upvote-count text-sm\">").concat(response.upvote, "</span>\n          </div>\n          <div class=\"image-item-comment flex items-center\">\n          <span class=\"icon comment-icon mr-0.1\"></span>\n          <span class=\"comment-count text-sm\">").concat(response.comments || "0", "</span>\n          </div>\n          <div class=\"image-item-seen flex items-center\">\n          <span class=\"icon seen-icon mr-0.1\"></span>\n          <span class=\"seen-count text-sm\">").concat(response.view, "</span>\n          </div>\n        </div>\n      </div>\n    </div>\n");
+  var div = "\n    <div class=\"imageDiv mr-1 mb-1 sm:w-210px sm:h-210px flex flex-col items-center relative\">\n      <a href=\"/gallery/".concat(response.id, "\" class=\"imageLink block w-full h-210\" \n        data-id=").concat(response.id, "\n        data-original=").concat(response.original, "\n        data-thumbnail=").concat(response.thumbnail, "\n        data-title=\"").concat(response.title, "\"\n        data-publicStatus=").concat(response.public_status, "\n        data-view=").concat(response.view, "\n        data-comments=").concat(response.comments || "0", "\n        data-upvote=").concat(response.upvote, "\n        data-user_id=\"").concat(response.user_id, "\">\n        <img class=\"girdImage\" src=\"").concat(_entry__WEBPACK_IMPORTED_MODULE_0__["b2_url"] + response.thumbnail, "\" alt=\"images\">\n      </a>\n      <div class=\"image-info w-full h-65px bg-gray-900 text-white text-sm p-1 flex flex-col absolute bottom-0\">\n        <div class=\"title flex-2\"><p>").concat(response.title, "</p></div>\n          <div class=\"image-item text-white flex-1 flex justify-around\">\n          <div class=\"image-item-upvote flex items-center\">\n          <span class=\"icon upvote-icon mr-0.1\"></span>\n          <span class=\"upvote-count text-sm\">").concat(response.upvote, "</span>\n          </div>\n          <div class=\"image-item-comment flex items-center\">\n          <span class=\"icon comment-icon mr-0.1\"></span>\n          <span class=\"comment-count text-sm\">").concat(response.comments || "0", "</span>\n          </div>\n          <div class=\"image-item-seen flex items-center\">\n          <span class=\"icon seen-icon mr-0.1\"></span>\n          <span class=\"seen-count text-sm\">").concat(response.view, "</span>\n          </div>\n        </div>\n      </div>\n    </div>\n");
   _entry__WEBPACK_IMPORTED_MODULE_0__["imageContainer"].insertAdjacentHTML("afterbegin", div);
 
   if (num === 1) {
