@@ -7,12 +7,22 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [ {
+        "type": "vcs",
+        "url": "https://github.com/huylequang210/backblaze-b2"
+     },
+     {
+         "type": "vcs",
+         "url": "https://github.com/huylequang210/laravel-backblaze-b2"
+     }
+    ],
     "require": {
         "php": "^7.3",
         "ext-gd": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
-        "gliterd/laravel-backblaze-b2": "^1.2",
+        "gliterd/backblaze-b2": "dev-master",
+        "gliterd/laravel-backblaze-b2": "dev-master",
         "goldspecdigital/laravel-eloquent-uuid": "8.0",
         "guzzlehttp/guzzle": "^7.2",
         "hpolthof/laravel-backblaze": "^0.1.3",

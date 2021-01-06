@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac26116434d0113d7cb2e8aa447eda12",
+    "content-hash": "7c8fea4a9e30e1dd023f69686d536649",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -696,16 +696,16 @@
         },
         {
             "name": "gliterd/backblaze-b2",
-            "version": "1.4.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gliterd/backblaze-b2.git",
-                "reference": "c6aa7b92f45321a3f441d963a08e16c0c57e2e30"
+                "url": "https://github.com/huylequang210/backblaze-b2.git",
+                "reference": "ad3be7ff92845073292557d2b0ee4119a8e97178"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/c6aa7b92f45321a3f441d963a08e16c0c57e2e30",
-                "reference": "c6aa7b92f45321a3f441d963a08e16c0c57e2e30",
+                "url": "https://api.github.com/repos/huylequang210/backblaze-b2/zipball/ad3be7ff92845073292557d2b0ee4119a8e97178",
+                "reference": "ad3be7ff92845073292557d2b0ee4119a8e97178",
                 "shasum": ""
             },
             "require": {
@@ -719,13 +719,26 @@
                 "scrutinizer/ocular": "~1.1",
                 "squizlabs/php_codesniffer": "~2.3"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "BackblazeB2\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "BackblazeB2\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "format": [
+                    "phpcbf --standard=psr2 src/"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -749,23 +762,22 @@
                 "storage"
             ],
             "support": {
-                "issues": "https://github.com/gliterd/backblaze-b2/issues",
-                "source": "https://github.com/gliterd/backblaze-b2/tree/1.4.2"
+                "source": "https://github.com/huylequang210/backblaze-b2/tree/master"
             },
-            "time": "2020-09-26T17:13:21+00:00"
+            "time": "2021-01-06T03:40:55+00:00"
         },
         {
             "name": "gliterd/laravel-backblaze-b2",
-            "version": "1.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gliterd/laravel-backblaze-b2.git",
-                "reference": "e89e2e64b08bd9d7476f21931abbd1af36e2bf3a"
+                "url": "https://github.com/huylequang210/laravel-backblaze-b2.git",
+                "reference": "f2819dbdf59c1d04f65fe99effa1c1c29f8d1cb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gliterd/laravel-backblaze-b2/zipball/e89e2e64b08bd9d7476f21931abbd1af36e2bf3a",
-                "reference": "e89e2e64b08bd9d7476f21931abbd1af36e2bf3a",
+                "url": "https://api.github.com/repos/huylequang210/laravel-backblaze-b2/zipball/f2819dbdf59c1d04f65fe99effa1c1c29f8d1cb6",
+                "reference": "f2819dbdf59c1d04f65fe99effa1c1c29f8d1cb6",
                 "shasum": ""
             },
             "require": {
@@ -777,6 +789,7 @@
                 "scrutinizer/ocular": "~1.1",
                 "squizlabs/php_codesniffer": "~2.3"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -790,7 +803,19 @@
                     "Gliterd\\BackblazeB2\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Gliterd\\BackblazeB2\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "format": [
+                    "phpcbf --standard=psr2 src/"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -805,19 +830,18 @@
             "description": "Backblaze B2 Cloud Storage for Laravel 5",
             "homepage": "https://github.com/mhetreramesh/flysystem-backblaze",
             "keywords": [
-                "Flysystem",
                 "api",
                 "backblaze",
                 "disks",
                 "filesystem",
+                "flysystem",
                 "laravel",
                 "storage"
             ],
             "support": {
-                "issues": "https://github.com/gliterd/laravel-backblaze-b2/issues",
-                "source": "https://github.com/gliterd/laravel-backblaze-b2/tree/1.2.1"
+                "source": "https://github.com/huylequang210/laravel-backblaze-b2/tree/master"
             },
-            "time": "2020-07-12T08:32:26+00:00"
+            "time": "2021-01-06T03:25:06+00:00"
         },
         {
             "name": "goldspecdigital/laravel-eloquent-uuid",
@@ -1311,16 +1335,16 @@
         },
         {
             "name": "laravel/fortify",
-            "version": "v1.7.2",
+            "version": "v1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/fortify.git",
-                "reference": "1333184e4797de9f6fe5891e4b6f07919a151289"
+                "reference": "94d22e00e407966e125a3c3af9b2310f7ff7e54b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/fortify/zipball/1333184e4797de9f6fe5891e4b6f07919a151289",
-                "reference": "1333184e4797de9f6fe5891e4b6f07919a151289",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/94d22e00e407966e125a3c3af9b2310f7ff7e54b",
+                "reference": "94d22e00e407966e125a3c3af9b2310f7ff7e54b",
                 "shasum": ""
             },
             "require": {
@@ -1370,20 +1394,20 @@
                 "issues": "https://github.com/laravel/fortify/issues",
                 "source": "https://github.com/laravel/fortify"
             },
-            "time": "2020-11-24T16:52:33+00:00"
+            "time": "2021-01-05T16:27:23+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v8.20.1",
+            "version": "v8.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b5d8573ab16027867eaa1ac148893833434f9b02"
+                "reference": "a61cab167c35f465a923737ee6e6fb99cd5fde88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b5d8573ab16027867eaa1ac148893833434f9b02",
-                "reference": "b5d8573ab16027867eaa1ac148893833434f9b02",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a61cab167c35f465a923737ee6e6fb99cd5fde88",
+                "reference": "a61cab167c35f465a923737ee6e6fb99cd5fde88",
                 "shasum": ""
             },
             "require": {
@@ -1537,7 +1561,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-12-22T21:21:19+00:00"
+            "time": "2021-01-05T15:43:10+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -8056,7 +8080,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "gliterd/backblaze-b2": 20,
+        "gliterd/laravel-backblaze-b2": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
