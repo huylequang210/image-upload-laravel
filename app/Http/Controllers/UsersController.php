@@ -13,7 +13,7 @@ class UsersController extends Controller
 
     public function destroy($id) {
         $image = ImageUpload::onlyTrashed()->find($id);
-        if($image == null && $image->user_id !== (string)Auth::id()) {
+        if($image == null || $image->user_id !== (string)Auth::id()) {
             return response()->json(['error' => 'Not allow'], 403);
         }
         Storage::disk('b2')->delete([
@@ -26,7 +26,7 @@ class UsersController extends Controller
 
     public function restore($id) {
         $image = ImageUpload::onlyTrashed()->find($id);
-        if($image == null && $image->user_id !== (string)Auth::id()) {
+        if($image == null || $image->user_id !== (string)Auth::id()) {
             return response()->json(['error' => 'Not allow'], 403);
         }
         $image->restore();
