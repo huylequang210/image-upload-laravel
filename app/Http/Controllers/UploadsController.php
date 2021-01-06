@@ -55,18 +55,18 @@ class UploadsController extends Controller
 
     public function update(ImageUpload $imageUpload) {
         if($imageUpload->user_id !== (string)Auth::id()) {
-            return response()->json(['error' => [is_string($imageUpload->user_id) => is_string((string)Auth::id())]], 403);
+            return response()->json(['error' => 'Not allow'], 403);
         }
         request()->validate([
             'title' => 'max:50|min:1',
             'public_status' => 'numeric',
-        ]);
+        ]); 
         $imageUpload->update(request()->input());
         return $imageUpload;
     }
     
     public function destroy(ImageUpload $imageUpload) {
-        if($imageUpload->user_id !== (string)Auth::id()) {
+        if($imageUpload->user_id !== Auth::id()) {
             return response()->json(['error' => 'Not allow'], 403);
         }
         // save data image to return
