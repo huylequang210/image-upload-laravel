@@ -55,7 +55,7 @@ class UploadsController extends Controller
 
     public function update(ImageUpload $imageUpload) {
         if($imageUpload->user_id !== (string)Auth::id()) {
-            return response()->json(['error' => [$imageUpload->user_id => (string)Auth::id()]], 403);
+            return response()->json(['error' => [is_string($imageUpload->user_id) => is_string((string)Auth::id())]], 403);
         }
         request()->validate([
             'title' => 'max:50|min:1',
