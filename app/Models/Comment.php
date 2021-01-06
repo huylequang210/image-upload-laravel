@@ -11,6 +11,10 @@ class Comment extends Model
     protected $fillable = ['body', 'user_id', 'image_upload_id'];
     public $timestamps = true;
 
+    protected $casts = [
+        'user_id' => 'integer'
+    ];
+
     public function user() {
         return $this->belongsTo('App\Models\User');
     }

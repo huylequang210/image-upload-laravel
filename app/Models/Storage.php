@@ -17,6 +17,12 @@ class Storage extends Model
         'usage_thumbnail' => 0.0,
     ];
 
+    protected $casts = [
+        'limit' => 'float',
+        'usage_original' => 'float',
+        'usage_thumbnail' => 'float',
+    ];
+
     public function user() {
         $this->belongsTo('App\Models\User');
     }

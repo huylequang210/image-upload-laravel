@@ -20,6 +20,14 @@ class ImageUpload extends Model
         'upvote' => 0,
     ];
 
+    protected $casts = [
+        'title' => 'string',
+        'public_status' => 'integer',
+        'view' => 'integer',
+        'upvote' => 'integer',
+        'user_id' => 'integer'
+    ];
+
     protected $dates = ['deleted_at'];
 
     public function scopePublic($query) {

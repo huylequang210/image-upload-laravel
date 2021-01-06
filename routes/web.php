@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [UsersViewController::class, 'publicView']);
 
 Route::get('/image/{imageUpload}', [UploadsController::class, 'index']);
+Route::patch('/image/{imageUpload}', [UploadsController::class, 'update']);
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/home', [UsersViewController::class, 'homeView'])->name('home');
@@ -55,25 +56,8 @@ Route::middleware(['auth'])->group(function () {
   Route::patch('/change-password', ChangePassword::class)->name('password.change');
 });
 
-
-
-Route::patch('/image/{imageUpload}', [UploadsController::class, 'update']);
-
 Route::middleware(['checkIp'])->group(function() {
-  Route::get('/gallery/{imageUpload}', function(ImageUpload $imageUpload) {
-    $img = $imageUpload;
-    // update record by retrieving new record when view update
-    if(request()->attributes->get('view'))
-      $img = ImageUpload::find($imageUpload->id);
-    // if user access to private image
-    if($img->public_status == 0 && $img->user_id !== (string)Auth::id())  {
-      abort(401);
-    }
-    $images = ImageUpload::public()->latest()->get();
-    $comments = Comment::where('image_upload_id', '=', $img->id)->get();
-    $vote = Vote::where([['upload_image_id', '=', $img->id],['user_id', '=', Auth::id()]])->first();
-    return view('gallery', compact(['img', 'comments', 'images', 'vote']));
-  });
+  Route::get('/gallery/{imageUpload}', [GalleryViewController::class, 'index']);
   Route::post('/gallery/{imageUpload}', [GalleryViewController::class, 'store']);
 });
 
