@@ -14,7 +14,7 @@ class UsersController extends Controller
     public function destroy($id) {
         $image = ImageUpload::onlyTrashed()->find($id);
         if($image == null && $image->user_id !== (string)Auth::id()) {
-            return array('error' => 'Not allow');
+            return response()->json(['error' => 'Not allow'], 403);
         }
         Storage::disk('b2')->delete([
             'images/' . $image->original,
@@ -27,7 +27,7 @@ class UsersController extends Controller
     public function restore($id) {
         $image = ImageUpload::onlyTrashed()->find($id);
         if($image == null && $image->user_id !== (string)Auth::id()) {
-            return array('error' => 'Not allow');
+            return response()->json(['error' => 'Not allow'], 403);
         }
         $image->restore();
         $image->update(['public_status' => 0]);

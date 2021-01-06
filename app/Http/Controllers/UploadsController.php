@@ -55,7 +55,7 @@ class UploadsController extends Controller
 
     public function update(ImageUpload $imageUpload) {
         if($imageUpload->user_id !== (string)Auth::id()) {
-            return array('error' => 'Not allow');
+            return response()->json(['error' => 'Not allow'], 403);
         }
         request()->validate([
             'title' => 'max:50|min:1',
@@ -67,12 +67,8 @@ class UploadsController extends Controller
     
     public function destroy(ImageUpload $imageUpload) {
         if($imageUpload->user_id !== (string)Auth::id()) {
-            return array('error' => 'Not allow');
+            return response()->json(['error' => 'Not allow'], 403);
         }
-        // $result = File::delete([
-        //     public_path() . '/images/' . $imageUpload->original,
-        //     public_path() . '/images/' . $imageUpload->thumbnail,
-        // ]);
         // save data image to return
         $this->responseImagesName = $imageUpload;
         // soft delete record
