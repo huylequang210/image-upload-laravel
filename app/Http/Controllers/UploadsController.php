@@ -54,7 +54,7 @@ class UploadsController extends Controller
     }
 
     public function update(ImageUpload $imageUpload) {
-        dd($imageUpload->user_id, Auth::id());
+        dd($imageUpload->user_id, Auth::id(), gettype($imageUpload->user_id), gettype(Auth::id()),  $imageUpload->user_id === Auth::id());
         if($imageUpload->user_id !== (string)Auth::id()) {
             return response()->json(['error' => 'Not allow'], 403);
         }
