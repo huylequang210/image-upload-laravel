@@ -14,7 +14,7 @@ const downvoteSVG = (downvoteButton !== null) && downvoteButton.querySelector('s
 const points = document.querySelector('.gallery-points');
 const voteLimit = document.querySelector('.upvote-ratelimit');
 const pathname = window.location.pathname;
-const id = pathname.replace('/gallery/','');;
+const id = pathname.replace('/gallery/','');
 
 function renderBackForward() {
   Axios.get(`/upvote/${id}?t=${new Date().getTime()}`).then(function(response) {

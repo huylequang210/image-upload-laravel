@@ -20,6 +20,7 @@ class CheckIp
     public function handle(Request $request, Closure $next)
     {
         $imageId = request()->route('imageUpload')->id;
+        if($imageId === null) return response()->json(['page' => 'empty'], 404 ); 
         // check ip exist in this gallery, if yes do nothing
         $checkIp = GalleryView::where([
             ['ip', '=', request()->ip()],
@@ -28,7 +29,7 @@ class CheckIp
         if($checkIp->isEmpty()) {
             (new GalleryViewController)->store($imageId);
             $image = ImageUpload::find($imageId);
-            $image->update(array('view' => $image->view+1));
+            $image->update(['view' => $image->view+1]);
             request()->attributes->set('view', $image->view);
         }
         return $next($request);

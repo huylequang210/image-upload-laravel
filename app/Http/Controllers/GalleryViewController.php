@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GalleryView;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ImageUpload;
+use App\Models\Comment;
+use App\Models\Vote;
 
 class GalleryViewController extends Controller
 {
@@ -23,12 +26,12 @@ class GalleryViewController extends Controller
         return view('gallery', compact(['img', 'comments', 'images', 'vote']));
     }
 
-    public function store($image_upload_id) {
+    public function store($image_upload) {
         GalleryView::create([
             'ip' => request()->ip(),
             'agent' => request()->header('User-Agent'),
             'user_id' => Auth::id(),
-            'image_upload_id' => $image_upload_id
+            'image_upload_id' => $image_upload->id
         ]);
     }
 }
