@@ -26,12 +26,12 @@ class GalleryViewController extends Controller
         return view('gallery', compact(['img', 'comments', 'images', 'vote']));
     }
 
-    public function store($image_upload) {
+    public function store($image_upload_id) {
         GalleryView::create([
             'ip' => request()->ip(),
             'agent' => request()->header('User-Agent'),
             'user_id' => Auth::id(),
-            'image_upload_id' => $image_upload->id
+            'image_upload_id' => $image_upload_id
         ]);
     }
 }
