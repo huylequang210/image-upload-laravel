@@ -1,4 +1,9 @@
 ### image-upload-laravel
+### Config variables: Using 'b2' driver (backblaze)
+- B2_ACCOUNT_ID= Master Application Key keyId
+- B2_APP_KEY= Your Application Keys keyId
+- B2_APP_KEY_ID= Generated after add a new application key
+- B2_BUCKET= Bucket name
 ### Route
 - welcome - Images are public 
 - home - Images are private
