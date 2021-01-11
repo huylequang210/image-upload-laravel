@@ -9,11 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
-use App\Models\ImageUpload;
-use App\Models\Comment;
-use App\Models\Vote;
-use App\View\Components\Image;
-use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
